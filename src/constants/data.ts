@@ -5,7 +5,12 @@ import {
   yellowImg
 } from '@/utils/data'
 
-export const navLists = ['Store', 'Mac', 'iPhone', 'Support'] as const
+export const navItems = [
+  { name: 'Store', hash: '#store' },
+  { name: 'Mac', hash: '#mac' },
+  { name: 'iPhone', hash: '#iPhone' },
+  { name: 'Support', hash: '#support' }
+] as const
 
 export const hightlightsSlides = [
   {
