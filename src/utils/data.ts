@@ -1,7 +1,5 @@
 import hero from '/public/assets/images/hero.jpeg'
 
-// import hmv from '@/videos/explore.mp4'
-
 import apple from '/public/assets/images/apple.svg'
 import search from '/public/assets/images/search.svg'
 import bag from '/public/assets/images/bag.svg'
@@ -21,8 +19,6 @@ import chip from '/public/assets/images/chip.jpeg'
 import frame from '/public/assets/images/frame.png'
 
 export const heroImg = hero
-
-// export const heroVideo = hmv
 
 export const appleImg = apple
 export const searchImg = search
