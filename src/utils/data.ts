@@ -18,6 +18,9 @@ import explore2 from '/public/assets/images/explore2.jpg'
 import chip from '/public/assets/images/chip.jpeg'
 import frame from '/public/assets/images/frame.png'
 
+export const heroVideo = '/videos/hero.mp4'
+export const smallHeroVideo = '/videos/smallHero.mp4'
+
 export const heroImg = hero
 
 export const appleImg = apple
