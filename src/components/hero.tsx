@@ -1,10 +1,11 @@
 'use client'
 
 import gsap from 'gsap'
-import { useEffect, useState } from 'react'
-import { useGSAP } from '@gsap/react'
-import { heroVideo, smallHeroVideo } from '@/utils/data'
 import Link from 'next/link'
+import { useGSAP } from '@gsap/react'
+import { useEffect, useState } from 'react'
+
+import { heroVideo, smallHeroVideo } from '@/utils/data'
 
 export default function Hero() {
   const [videoSrc, setVideoSrc] = useState('')
@@ -21,10 +22,9 @@ export default function Hero() {
     setVideoSrc(window.innerWidth < 760 ? smallHeroVideo : heroVideo)
 
     window.addEventListener('resize', handleVideoSrcSet)
-
     return () => {
       window.removeEventListener('resize', handleVideoSrcSet)
-    }
+    } // reseting the event handler
   }, [])
 
   useGSAP(() => {
@@ -49,7 +49,7 @@ export default function Hero() {
         className='flex flex-col items-center opacity-0 translate-y-20'
       >
         <Link href='#highlights' className='btn'>Buy</Link>
-        <p className='font-normal text-xl'>Lorem ipsum dolor sit amet.</p>
+        <p className='font-normal text-xl'>From $199/month or $999</p>
       </div>
     </section>
   )

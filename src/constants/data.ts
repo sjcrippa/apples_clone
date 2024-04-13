@@ -1,6 +1,10 @@
 import {
   blackImg,
   blueImg,
+  hlFirstVideo,
+  hlFourthVideo,
+  hlSecondVideo,
+  hlThirdVideo,
   whiteImg,
   yellowImg
 } from '@/utils/data'
@@ -20,11 +24,13 @@ export const hightlightsSlides = [
       'Game‑changing chip.',
       'Groundbreaking performance.'
     ],
+    video: hlFirstVideo,
     videoDuration: 4
   },
   {
     id: 2,
     textLists: ['Titanium.', 'So strong. So light. So Pro.'],
+    video: hlSecondVideo,
     videoDuration: 5
   },
   {
@@ -34,11 +40,13 @@ export const hightlightsSlides = [
       'longest optical zoom in',
       'iPhone ever. Far out.'
     ],
+    video: hlThirdVideo,
     videoDuration: 2
   },
   {
     id: 4,
     textLists: ['All-new Action button.', 'What will yours do?.'],
+    video: hlFourthVideo,
     videoDuration: 3.63
   }
 ] as const

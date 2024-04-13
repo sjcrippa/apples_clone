@@ -20,6 +20,12 @@ import frame from '/public/assets/images/frame.png'
 
 export const heroVideo = '/videos/hero.mp4'
 export const smallHeroVideo = '/videos/smallHero.mp4'
+export const exploreVideo = '/videos/explore.mp4'
+export const frameVideo = '/videos/frame.mp4'
+export const hlFirstVideo = '/videos/highlight-first.mp4'
+export const hlSecondVideo = '/videos/highlight-sec.mp4'
+export const hlThirdVideo = '/videos/highlight-third.mp4'
+export const hlFourthVideo = '/videos/fourth.mp4'
 
 export const heroImg = hero
 
