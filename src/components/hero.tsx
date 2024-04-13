@@ -1,15 +1,35 @@
 'use client'
 
 import gsap from 'gsap'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useGSAP } from '@gsap/react'
 import { heroVideo, smallHeroVideo } from '@/utils/data'
+import Link from 'next/link'
 
 export default function Hero() {
-  const [videoSrc, setVideoSrc] = useState(window.innerWidth < 760 ? smallHeroVideo : heroVideo)
+  const [videoSrc, setVideoSrc] = useState('')
+
+  const handleVideoSrcSet = () => {
+    if (window.innerWidth < 760) {
+      setVideoSrc(smallHeroVideo)
+    } else {
+      setVideoSrc(heroVideo)
+    }
+  }
+
+  useEffect(() => {
+    setVideoSrc(window.innerWidth < 760 ? smallHeroVideo : heroVideo)
+
+    window.addEventListener('resize', handleVideoSrcSet)
+
+    return () => {
+      window.removeEventListener('resize', handleVideoSrcSet)
+    }
+  }, [])
 
   useGSAP(() => {
     gsap.to('#hero', { opacity: 1, delay: 1.5 })
+    gsap.to('#cta', { opacity: 1, y: -50, delay: 2 })
   }, [])
 
   return (
@@ -21,6 +41,15 @@ export default function Hero() {
             <source src={videoSrc} type='video/mp4' />
           </video>
         </div>
+      </div>
+
+      <div
+        // cta = call to action
+        id='cta'
+        className='flex flex-col items-center opacity-0 translate-y-20'
+      >
+        <Link href='#highlights' className='btn'>Buy</Link>
+        <p className='font-normal text-xl'>Lorem ipsum dolor sit amet.</p>
       </div>
     </section>
   )
