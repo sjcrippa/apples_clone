@@ -1,10 +1,15 @@
-import { hightlightsSlides } from '@/constants/data'
-import { pauseImg, playImg, replayImg } from '@/utils/data'
-import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import Image from 'next/image'
+import { useGSAP } from '@gsap/react'
+import { ScrollTrigger } from 'gsap/all'
 import { useEffect, useRef, useState } from 'react'
-import type { SyntheticEvent } from 'react'
+
+import { hightlightsSlides } from '@/constants/data'
+import { pauseImg, playImg, replayImg } from '@/utils/data'
+
+import type { LoadedDataEvent } from '@/utils/types'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function VideoCarousel() {
   const videoRef = useRef<HTMLVideoElement[]>([])
@@ -19,7 +24,7 @@ export default function VideoCarousel() {
     isPlaying: false
   })
 
-  const [loadedData, setLoadedData] = useState<Array<SyntheticEvent<HTMLVideoElement, Event>>>([])
+  const [loadedData, setLoadedData] = useState<LoadedDataEvent[]>([])
   const { isEnd, isLastVideo, isPlaying, startPlay, videoId } = video
 
   useGSAP(() => {
@@ -58,11 +63,11 @@ export default function VideoCarousel() {
 
   // This useEffect checks if loadedData exist, if so, will start playing the video:
   useEffect(() => {
-    if (loadedData.length > 3) {
+    if (loadedData.length > 0 && startPlay) { // Solo cuando hay datos cargados y startPlay es verdadero
       if (!isPlaying) {
-        videoRef.current[videoId].pause()
+        videoRef.current[videoId]?.pause()
       } else {
-        startPlay && videoRef.current[videoId].play()
+        videoRef.current[videoId]?.play()
       }
     }
   }, [startPlay, videoId, isPlaying, loadedData])
@@ -91,7 +96,16 @@ export default function VideoCarousel() {
     }
   }
 
-  const handleLoadedMetadata = (index: number, event: SyntheticEvent<HTMLVideoElement, Event>) => { setLoadedData((prevVideo) => [...prevVideo, event]) }
+  const handleLoadedMetadata = (index: number, videoElement: HTMLVideoElement) => {
+    setLoadedData((prevData) => {
+      if (prevData[index] == null) { // Verificar si el video ya está cargado
+        const newData = [...prevData]
+        newData[index] = videoElement
+        return newData
+      }
+      return prevData // Si ya está cargado, no hacemos cambios
+    })
+  }
 
   return (
     <>
@@ -111,8 +125,9 @@ export default function VideoCarousel() {
                     preload='auto'
                     muted
                     ref={(element) => {
-                      if (element != null) {
+                      if (element !== null) {
                         videoRef.current[index] = element
+                        handleLoadedMetadata(index, element) // Pasar la referencia al video en lugar del evento
                       }
                     }}
                     onPlay={() => {
@@ -120,7 +135,6 @@ export default function VideoCarousel() {
                         ...prevVideo, isPlaying: true
                       }))
                     }}
-                    onLoadedMetadata={(event) => { handleLoadedMetadata(index, event) }}
                   >
                     <source src={list.video} type='video/mp4' />
                   </video>
