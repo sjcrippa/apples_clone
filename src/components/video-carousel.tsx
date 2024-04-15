@@ -27,7 +27,13 @@ export default function VideoCarousel() {
   const [loadedData, setLoadedData] = useState<LoadedDataEvent[]>([])
   const { isEnd, isLastVideo, isPlaying, startPlay, videoId } = video
 
+  // Slider and video animations:
   useGSAP(() => {
+    gsap.to('#slider', {
+      transform: `translateX(${-100 * videoId}%)`,
+      duration: 2,
+      ease: 'power2.inOut'
+    })
     gsap.to('#video', {
       scrollTrigger: {
         trigger: '#video',
@@ -43,23 +49,86 @@ export default function VideoCarousel() {
     })
   }, [isEnd, videoId])
 
+  // Tracking bar animations and logics:
   useEffect(() => {
-    const currentProgress = 0
+    let currentProgress = 0
     const span = videoSpanRef.current
 
-    if (span[videoId]) {
+    if (span[videoId] !== undefined && span[videoId] !== null) { // span[videoId] will never be undefined or null, but we do the verification for linter.
       // here we animate the progress of the video
       const anim = gsap.to(span[videoId], {
         onUpdate: () => {
+          const progress = Math.ceil(anim.progress() * 100) // multiplicado x100 para obtener el porcentaje
 
+          if (progress !== currentProgress) {
+            currentProgress = progress
+
+            gsap.to(videoDivRef.current[videoId], {
+              width: window.innerWidth < 760
+                ? '10vw'
+                : window.innerWidth < 1200
+                  ? '10vw'
+                  : '4vw'
+            })
+
+            gsap.to(span[videoId], {
+              width: `${currentProgress}%`,
+              backgroundColor: 'white'
+            })
+          }
         },
         onComplete: () => {
-
+          if (isPlaying) {
+            gsap.to(videoDivRef.current[videoId], {
+              width: '12px'
+            })
+            gsap.to(span[videoId], {
+              backgroundColor: '#afafaf'
+            })
+          }
         }
       })
+
+      if (videoId === 0) {
+        anim.restart()
+      }
+
+      const animUpdate = () => {
+        anim.progress(videoRef.current[videoId].currentTime / hightlightsSlides[videoId].videoDuration)
+      }
+
+      if (isPlaying) {
+        gsap.ticker.add(animUpdate) // ticker is used to update the progress bar
+      } else {
+        gsap.ticker.remove(animUpdate)
+      }
     }
   }, [videoId, startPlay])
 
+  // Video data handler:
+  const handleLoadedMetadata = (index: number, videoElement: HTMLVideoElement) => {
+    setLoadedData((prevData) => {
+      if (prevData[index] == null) { // Checks that video it's already laod.
+        const newData = [...prevData]
+        newData[index] = videoElement
+        return newData
+      }
+      return prevData // If it's already load, we do nothing.
+    })
+  }
+
+  // Video start:
+  useEffect(() => {
+    if (loadedData.length > 0 && startPlay) { // only when data exist and startPlay is true.
+      if (!isPlaying) {
+        videoRef.current[videoId]?.pause()
+      } else {
+        videoRef.current[videoId]?.play()
+      }
+    }
+  }, [startPlay, videoId, isPlaying, loadedData])
+
+  // Video process handler:
   const handleProcess = (type: string, index?: number) => {
     switch (type) {
       case 'video-end':
@@ -84,28 +153,6 @@ export default function VideoCarousel() {
     }
   }
 
-  // This useEffect checks if loadedData exist, if so, the video start playing.
-  useEffect(() => {
-    if (loadedData.length > 0 && startPlay) { // only when data exist and startPlay is true.
-      if (!isPlaying) {
-        videoRef.current[videoId]?.pause()
-      } else {
-        videoRef.current[videoId]?.play()
-      }
-    }
-  }, [startPlay, videoId, isPlaying, loadedData])
-
-  const handleLoadedMetadata = (index: number, videoElement: HTMLVideoElement) => {
-    setLoadedData((prevData) => {
-      if (prevData[index] == null) { // Checks that video it's already laod.
-        const newData = [...prevData]
-        newData[index] = videoElement
-        return newData
-      }
-      return prevData // If it's already load, we do nothing.
-    })
-  }
-
   return (
     <>
       <section className="flex items-center">
@@ -122,6 +169,7 @@ export default function VideoCarousel() {
                     id='video'
                     playsInline={true}
                     preload='auto'
+                    className={`${list.id === 2 && 'translate-x-44'} pointer-events-none`}
                     muted
                     ref={(element) => {
                       if (element !== null) {
@@ -133,6 +181,11 @@ export default function VideoCarousel() {
                       setVideo((prevVideo) => ({
                         ...prevVideo, isPlaying: true
                       }))
+                    }}
+                    onEnded={() => {
+                      index !== 3
+                        ? handleProcess('video-end', index)
+                        : handleProcess('video-last')
                     }}
                   >
                     <source src={list.video} type='video/mp4' />
@@ -149,7 +202,7 @@ export default function VideoCarousel() {
             </div>
           ))
         }
-      </section>
+      </section >
 
       <section className='relative flex-center mt-10'>
         <div className='flex-center py-5 px-7 bg-gray-300 backdrop-blur rounded-full'>

@@ -30,7 +30,7 @@ export const hightlightsSlides = [
   {
     id: 2,
     textLists: ['Titanium.', 'So strong. So light. So Pro.'],
-    video: hlSecondVideo,
+    video: hlThirdVideo,
     videoDuration: 5
   },
   {
@@ -40,7 +40,7 @@ export const hightlightsSlides = [
       'longest optical zoom in',
       'iPhone ever. Far out.'
     ],
-    video: hlThirdVideo,
+    video: hlSecondVideo,
     videoDuration: 2
   },
   {
