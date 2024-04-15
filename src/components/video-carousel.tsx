@@ -47,7 +47,6 @@ export default function VideoCarousel() {
     const currentProgress = 0
     const span = videoSpanRef.current
 
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (span[videoId]) {
       // here we animate the progress of the video
       const anim = gsap.to(span[videoId], {
@@ -60,17 +59,6 @@ export default function VideoCarousel() {
       })
     }
   }, [videoId, startPlay])
-
-  // This useEffect checks if loadedData exist, if so, will start playing the video:
-  useEffect(() => {
-    if (loadedData.length > 0 && startPlay) { // Solo cuando hay datos cargados y startPlay es verdadero
-      if (!isPlaying) {
-        videoRef.current[videoId]?.pause()
-      } else {
-        videoRef.current[videoId]?.play()
-      }
-    }
-  }, [startPlay, videoId, isPlaying, loadedData])
 
   const handleProcess = (type: string, index?: number) => {
     switch (type) {
@@ -96,14 +84,25 @@ export default function VideoCarousel() {
     }
   }
 
+  // This useEffect checks if loadedData exist, if so, the video start playing.
+  useEffect(() => {
+    if (loadedData.length > 0 && startPlay) { // only when data exist and startPlay is true.
+      if (!isPlaying) {
+        videoRef.current[videoId]?.pause()
+      } else {
+        videoRef.current[videoId]?.play()
+      }
+    }
+  }, [startPlay, videoId, isPlaying, loadedData])
+
   const handleLoadedMetadata = (index: number, videoElement: HTMLVideoElement) => {
     setLoadedData((prevData) => {
-      if (prevData[index] == null) { // Verificar si el video ya está cargado
+      if (prevData[index] == null) { // Checks that video it's already laod.
         const newData = [...prevData]
         newData[index] = videoElement
         return newData
       }
-      return prevData // Si ya está cargado, no hacemos cambios
+      return prevData // If it's already load, we do nothing.
     })
   }
 
@@ -127,7 +126,7 @@ export default function VideoCarousel() {
                     ref={(element) => {
                       if (element !== null) {
                         videoRef.current[index] = element
-                        handleLoadedMetadata(index, element) // Pasar la referencia al video en lugar del evento
+                        handleLoadedMetadata(index, element) // Pass the reference to video instead of the event.
                       }
                     }}
                     onPlay={() => {
