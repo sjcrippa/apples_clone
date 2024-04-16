@@ -1,5 +1,6 @@
 import Hero from '@/components/hero'
 import Highlights from '@/components/highlights'
+import Model from '@/components/model/model'
 import Navbar from '@/components/navbar'
 
 export default function page() {
@@ -8,6 +9,7 @@ export default function page() {
       <Navbar />
       <Hero />
       <Highlights />
+      <Model />
     </main>
   )
 }
