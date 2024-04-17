@@ -17,3 +17,10 @@ export interface ModelViewProps {
   }
   size: string
 }
+
+export interface ModelProps {
+  id: number
+  title: string
+  color: string[]
+  img: StaticImageData
+}

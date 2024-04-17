@@ -8,6 +8,7 @@ import {
   whiteImg,
   yellowImg
 } from '@/utils/data'
+import type { ModelProps } from '@/utils/types'
 
 export const navItems = [
   { name: 'Store', hash: '#store' },
@@ -49,9 +50,9 @@ export const hightlightsSlides = [
     video: hlFourthVideo,
     videoDuration: 3.63
   }
-] as const
+]
 
-export const models = [
+export const models: ModelProps[] = [
   {
     id: 1,
     title: 'iPhone 15 Pro in Natural Titanium',
