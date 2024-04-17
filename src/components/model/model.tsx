@@ -9,6 +9,7 @@ import { useRef, useState } from 'react'
 
 import ModelView from './model-view'
 import { yellowImg } from '@/utils/data'
+import { models } from '@/constants/data'
 
 export default function Model() {
   const [size, setSize] = useState('small')
@@ -61,9 +62,39 @@ export default function Model() {
               size={size}
             />
 
-            <Canvas>
+            <Canvas
+              className='w-full h-full'
+              style={{
+                position: 'fixed',
+                top: 0,
+                bottom: 0,
+                right: 0,
+                left: 0,
+                overflow: 'hidden'
+              }}
+              eventSource={document.getElementById('root')}
+            >
               <View.Port />
             </Canvas>
+          </div>
+          <div className='mx-auto w-full'>
+            <p className='text-sm font-light text-center mb-5'>{model.title}</p>
+          </div>
+          <div className='flex-center'>
+            <ul className='color-container'>
+              {
+                models.map((item, index) => (
+                  <li
+                    key={index}
+                    className='w-6 h-6 rounded-full mx-2'
+                    style={{
+                      backgroundColor: item.color[0]
+                    }}
+                    onClick={() => { setModel(item) }}
+                  />
+                ))
+              }
+            </ul>
           </div>
         </div>
       </div>
