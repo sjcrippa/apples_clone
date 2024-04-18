@@ -38,7 +38,7 @@ export default function ModelView({
         enablePan={false}
         rotateSpeed={0.4}
         target={new THREE.Vector3(0, 0, 0)}
-        onEnd={() => { setRotationState(controlRef.current!.getAzimuthalAngle()) }}
+        onEnd={() => { setRotationState(controlRef?.current?.getAzimuthalAngle()) }}
       />
 
       <group
