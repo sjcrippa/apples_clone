@@ -6,13 +6,7 @@ import { useGLTF } from '@react-three/drei'
 
 import type * as THREEtype from 'three'
 import type { GLTF } from 'three-stdlib'
-
-interface IPhoneModelProps {
-  item: {
-    img: string
-    color: string[]
-  }
-}
+import type { IPhoneModelProps } from '@/utils/types'
 
 type GLTFResult = GLTF & {
   nodes: {

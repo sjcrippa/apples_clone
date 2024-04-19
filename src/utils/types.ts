@@ -24,3 +24,24 @@ export interface ModelProps {
   color: string[]
   img: StaticImageData
 }
+
+export interface IPhoneModelProps {
+  item: {
+    img: string | StaticImageData
+    color: string[]
+  }
+  scale: number[]
+  size: string
+}
+
+export interface TimelineAnimationsProps {
+  timeline: gsap.core.Timeline | null
+  rotationRef: MutableRefObject<Group<Object3DEventMap>>
+  rotationState: number
+  firstTarget: string
+  secondTarget: string
+  animationProps: {
+    transform: string
+    duration: number
+  }
+}

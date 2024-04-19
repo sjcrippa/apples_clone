@@ -5,11 +5,12 @@ import * as THREE from 'three'
 import { View } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { useGSAP } from '@gsap/react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import ModelView from './model-view'
 import { yellowImg } from '@/utils/data'
 import { models, sizes } from '@/constants/data'
+import { animateTimeline } from '@/utils/animations'
 
 export default function Model() {
   const [size, setSize] = useState('small')
@@ -30,6 +31,38 @@ export default function Model() {
   // Rotation tracking
   const [smallRotation, setSmallRotation] = useState(0)
   const [largeRotation, setLargeRotation] = useState(0)
+
+  // Animation for transition into models sizes
+  const timeline = gsap.timeline()
+
+  useEffect(() => {
+    if (size === 'large') {
+      animateTimeline({
+        timeline,
+        rotationRef: small,
+        rotationState: smallRotation,
+        firstTarget: '#view1',
+        secondTarget: '#view2',
+        animationProps: {
+          transform: 'translateX(-100%)',
+          duration: 2
+        }
+      })
+    }
+    if (size === 'small') {
+      animateTimeline({
+        timeline,
+        rotationRef: large,
+        rotationState: largeRotation,
+        firstTarget: '#view2',
+        secondTarget: '#view1',
+        animationProps: {
+          transform: 'translateX(0)',
+          duration: 2
+        }
+      })
+    }
+  }, [size, smallRotation, timeline, largeRotation])
 
   useGSAP(() => {
     gsap.to('#heading', { y: 0, opacity: 1 })
@@ -88,17 +121,21 @@ export default function Model() {
 
             <div className="flex-center">
               <ul className="color-container">
-                {models.map((item, i) => (
-                  <li key={i} className="w-6 h-6 rounded-full mx-2 cursor-pointer" style={{ backgroundColor: item.color[0] }} onClick={() => { setModel(item) }} />
-                ))}
+                {
+                  models.map((item, i) => (
+                    <li key={i} className="w-6 h-6 rounded-full mx-2 cursor-pointer" style={{ backgroundColor: item.color[0] }} onClick={() => { setModel(item) }} />
+                  ))
+                }
               </ul>
 
               <button className="size-btn-container">
-                {sizes.map(({ label, value }) => (
-                  <span key={label} className="size-btn" style={{ backgroundColor: size === value ? 'white' : 'transparent', color: size === value ? 'black' : 'white' }} onClick={() => { setSize(value) }}>
-                    {label}
-                  </span>
-                ))}
+                {
+                  sizes.map(({ label, value }) => (
+                    <span key={label} className="size-btn" style={{ backgroundColor: size === value ? 'white' : 'transparent', color: size === value ? 'black' : 'white' }} onClick={() => { setSize(value) }}>
+                      {label}
+                    </span>
+                  ))
+                }
               </button>
             </div>
           </div>
