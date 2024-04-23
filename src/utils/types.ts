@@ -49,10 +49,18 @@ export interface TimelineAnimationsProps {
 export interface AnimationsProps {
   target: string
   animationProps: {
-    transform: string
-    duration: number
+    y?: number
+    opacity: number
+    scale?: number
+    ease?: string
+    duration?: number
   }
-  scrollProps: {
-    scrollTriger: unknown
+  scrollProps?: {
+    scrub: number
+    scrollTrigger?: {
+      trigger: string
+      toggleActions: string
+      start: string
+    }
   }
 }

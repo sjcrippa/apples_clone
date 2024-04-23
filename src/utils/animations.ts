@@ -1,6 +1,9 @@
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/all'
 
 import type { AnimationsProps, TimelineAnimationsProps } from './types'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export const animateTimeline = ({ timeline, rotationRef, rotationState, firstTarget, secondTarget, animationProps }: TimelineAnimationsProps) => {
   if (timeline !== null) {
@@ -30,12 +33,14 @@ export const animateTimeline = ({ timeline, rotationRef, rotationState, firstTar
   }
 }
 
-export const animate = ({ target, animationProps, scrollProps }: AnimationsProps) => {
+export const animateRandom = ({ target, animationProps, scrollProps }: AnimationsProps) => {
   gsap.to(target, {
     ...animationProps,
     scrollTrigger: {
       trigger: target,
-      toggleActions: 'restart reverse restart reverse' // in - out - in - out
+      toggleActions: 'restart reverse restart reverse', // in - out - in - out, on scroll movement
+      start: 'top 85%',
+      ...scrollProps
     }
   })
 }
