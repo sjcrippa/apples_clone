@@ -1,3 +1,4 @@
+import Features from '@/components/features'
 import Hero from '@/components/hero'
 import Highlights from '@/components/highlights'
 import Model from '@/components/model/model'
@@ -10,6 +11,7 @@ export default function page() {
       <Hero />
       <Highlights />
       <Model />
+      <Features />
     </main>
   )
 }

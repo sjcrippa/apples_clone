@@ -45,3 +45,14 @@ export interface TimelineAnimationsProps {
     duration: number
   }
 }
+
+export interface AnimationsProps {
+  target: string
+  animationProps: {
+    transform: string
+    duration: number
+  }
+  scrollProps: {
+    scrollTriger: unknown
+  }
+}

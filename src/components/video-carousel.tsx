@@ -103,7 +103,7 @@ export default function VideoCarousel() {
         gsap.ticker.remove(animUpdate)
       }
     }
-  }, [videoId, startPlay])
+  }, [videoId, startPlay, isPlaying])
 
   // Video data handler:
   const handleLoadedMetadata = (index: number, videoElement: HTMLVideoElement) => {

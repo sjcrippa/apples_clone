@@ -1,4 +1,6 @@
-import type { TimelineAnimationsProps } from './types'
+import gsap from 'gsap'
+
+import type { AnimationsProps, TimelineAnimationsProps } from './types'
 
 export const animateTimeline = ({ timeline, rotationRef, rotationState, firstTarget, secondTarget, animationProps }: TimelineAnimationsProps) => {
   if (timeline !== null) {
@@ -26,4 +28,14 @@ export const animateTimeline = ({ timeline, rotationRef, rotationState, firstTar
       '<'
     )
   }
+}
+
+export const animate = ({ target, animationProps, scrollProps }: AnimationsProps) => {
+  gsap.to(target, {
+    ...animationProps,
+    scrollTrigger: {
+      trigger: target,
+      toggleActions: 'restart reverse restart reverse' // in - out - in - out
+    }
+  })
 }
