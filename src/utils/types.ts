@@ -1,6 +1,7 @@
 import type { SyntheticEvent, Dispatch, MutableRefObject, SetStateAction } from 'react'
 import type { StaticImageData } from 'next/image'
 import type { Group, Object3DEventMap } from 'three'
+import type { Vector3 } from '@react-three/fiber'
 
 export type LoadedDataEvent = SyntheticEvent<HTMLVideoElement, Event> | HTMLVideoElement | null
 
@@ -30,7 +31,7 @@ export interface IPhoneModelProps {
     img: string | StaticImageData
     color: string[]
   }
-  scale: number[]
+  scale: Vector3 | [x: number, y: number, z: number]
   size: string
 }
 

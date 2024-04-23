@@ -30,7 +30,19 @@
         "@typescript-eslint/space-before-function-paren": "off",
         "import/no-absolute-path": "off",
         "react/no-unknown-property": ["error", { 
-            "ignore": ["dispose","geometry", "material", "scale", "castShadow", "receiveShadow","intensity","position"] 
+            "ignore": [
+                "dispose",
+                "geometry", 
+                "material", 
+                "scale",
+                "castShadow",
+                "receiveShadow",
+                "intensity",
+                "position",
+                "angle",
+                "penumbra",
+                "decay"
+                ] 
             }
         ]
     }
