@@ -33,7 +33,7 @@ export const animateTimeline = ({ timeline, rotationRef, rotationState, firstTar
   }
 }
 
-export const animateRandom = ({ target, animationProps, scrollProps }: AnimationsProps) => {
+export const animateRandomElement = ({ target, animationProps, scrollProps }: AnimationsProps) => {
   gsap.to(target, {
     ...animationProps,
     scrollTrigger: {

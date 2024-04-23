@@ -1,7 +1,7 @@
 'use client'
 
 import { useGSAP } from '@gsap/react'
-import { animateRandom } from '@/utils/animations'
+import { animateRandomElement } from '@/utils/animations'
 import { explore1Img, explore2Img, exploreVideo } from '@/utils/data'
 import { useRef } from 'react'
 import Image from 'next/image'
@@ -21,13 +21,13 @@ export default function Features() {
         videoRef.current?.play()
       }
     })
-    animateRandom({ target: '#features_title', animationProps: { y: 0, opacity: 1 } })
-    animateRandom({
+    animateRandomElement({ target: '#features_title', animationProps: { y: 0, opacity: 1 } })
+    animateRandomElement({
       target: '.g_grow',
       animationProps: { scale: 1, opacity: 1, ease: 'power1' },
       scrollProps: { scrub: 5.5 }
     })
-    animateRandom({
+    animateRandomElement({
       target: '.g_text',
       animationProps: { y: 0, opacity: 1, ease: 'power2.inOut', duration: 1 }
     })
