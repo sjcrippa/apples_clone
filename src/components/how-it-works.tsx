@@ -2,11 +2,11 @@
 
 import gsap from 'gsap'
 import Image from 'next/image'
+import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 
-import { chipImg, frameImg, frameVideo } from '@/utils/data'
-import { useRef } from 'react'
 import { animateRandomElement } from '@/utils/animations'
+import { chipImg, frameImg, frameVideo } from '@/utils/data'
 
 export default function HowItWorks() {
   const videoRef = useRef(null)
