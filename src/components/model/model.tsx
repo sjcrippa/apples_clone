@@ -35,6 +35,13 @@ export default function Model() {
   // Animation for transition into models sizes
   const timeline = gsap.timeline()
 
+  // Fixing eventSource bug
+  const rootRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    rootRef.current = document.getElementById('root')
+  }, [])
+
   useEffect(() => {
     if (size === 'large') {
       animateTimeline({
@@ -110,7 +117,7 @@ export default function Model() {
                 pointerEvents: 'none' // Evitar que el Canvas intercepte eventos de ratón
 
               }}
-              eventSource={document.getElementById('root')}
+              eventSource={rootRef.current ?? document.body}
             >
               <View.Port />
             </Canvas>
