@@ -1,21 +1,23 @@
 import * as THREE from 'three'
-import { Suspense } from 'react'
+import { Suspense, useRef } from 'react'
 import { Html, OrbitControls, PerspectiveCamera, View } from '@react-three/drei'
 
 import Lights from './lights'
 import IPhoneModel from './iphone'
 
 import type { ModelViewProps } from '@/utils/types'
+import type { MutableRefObject } from 'react'
 
 export default function ModelView({
   index,
   groupRef,
   gsapType,
-  controlRef,
   setRotationState,
   item,
   size
 }: ModelViewProps) {
+  const controlRef: MutableRefObject<null> = useRef(null)
+
   return (
     <View
       index={index}
@@ -24,7 +26,7 @@ export default function ModelView({
     >
       {/* Ambient Light */}
       <ambientLight intensity={1} />
-      5
+
       {/* Camera */}
       <PerspectiveCamera makeDefault position={[0, 0, 4]} />
 

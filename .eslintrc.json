@@ -5,6 +5,7 @@
         "node": true
     },
     "extends": [
+        "plugin:@next/next/recommended",
         "standard-with-typescript",
         "plugin:react/recommended",
         "plugin:react/jsx-runtime",
