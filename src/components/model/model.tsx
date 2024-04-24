@@ -39,8 +39,12 @@ export default function Model() {
   const rootRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
-    rootRef.current = document.getElementById('root')
+    if (typeof window !== 'undefined') {
+      rootRef.current = document.getElementById('root')
+    }
   }, [])
+
+  const eventSource = rootRef.current ?? undefined
 
   useEffect(() => {
     if (size === 'large') {
@@ -117,7 +121,7 @@ export default function Model() {
                 pointerEvents: 'none' // Evitar que el Canvas intercepte eventos de ratón
 
               }}
-              eventSource={rootRef.current ?? document.body}
+              eventSource={eventSource}
             >
               <View.Port />
             </Canvas>
