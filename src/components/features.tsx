@@ -1,11 +1,12 @@
 'use client'
 
+import gsap from 'gsap'
+import Image from 'next/image'
+import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
+
 import { animateRandomElement } from '@/utils/animations'
 import { explore1Img, explore2Img, exploreVideo } from '@/utils/data'
-import { useRef } from 'react'
-import Image from 'next/image'
-import gsap from 'gsap'
 
 export default function Features() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -23,7 +24,7 @@ export default function Features() {
     })
     animateRandomElement({ target: '#features_title', animationProps: { y: 0, opacity: 1 } })
     animateRandomElement({
-      target: '.g_grow',
+      target: '.g_grow_image',
       animationProps: { scale: 1, opacity: 1, ease: 'power1' },
       scrollProps: { scrub: 5.5 }
     })
@@ -37,7 +38,7 @@ export default function Features() {
     <section className="h-full common-padding bg-zinc relative overflow-hidden">
       <div className="screen-max-width">
         <div className="mb-12 w-full">
-          <h1 id="features_title" className="section-heading">Explore the full story.</h1>
+          <h2 id="features_title" className="section-heading">Explore the full story.</h2>
         </div>
 
         <div className='flex flex-col justify-center items-center overflow-hidden'>
@@ -68,14 +69,16 @@ export default function Features() {
                 <Image
                   src={explore1Img}
                   alt='titanium'
-                  className='feature-video g_grow'
+                  className='feature-video g_grow_image'
+                  priority
                 />
               </div>
               <div className='overflow-hidden flex-1 h-[50vh]'>
                 <Image
                   src={explore2Img}
                   alt='titanium two'
-                  className='feature-video g_grow'
+                  className='feature-video g_grow_image'
+                  priority
                 />
               </div>
             </div>
