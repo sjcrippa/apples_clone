@@ -15,7 +15,7 @@ export default function VideoCarousel() {
   const videoRef = useRef<HTMLVideoElement[]>([])
   const videoSpanRef = useRef<HTMLSpanElement[]>([])
   const videoDivRef = useRef<HTMLSpanElement[]>([])
-
+  const [loadedData, setLoadedData] = useState<LoadedDataEvent[]>([])
   const [video, setVideo] = useState({
     isEnd: false,
     startPlay: false,
@@ -24,8 +24,43 @@ export default function VideoCarousel() {
     isPlaying: false
   })
 
-  const [loadedData, setLoadedData] = useState<LoadedDataEvent[]>([])
   const { isEnd, isLastVideo, isPlaying, startPlay, videoId } = video
+
+  // Video start:
+  useEffect(() => {
+    if (loadedData.length > 0 && startPlay) { // only when data exist and startPlay is true.
+      if (!isPlaying) {
+        videoRef.current[videoId]?.pause()
+      } else {
+        videoRef.current[videoId]?.play()
+      }
+    }
+  }, [startPlay, videoId, isPlaying, loadedData])
+
+  // Video process handler:
+  const handleProcess = (type: string, index?: number) => {
+    switch (type) {
+      case 'video-end':
+        if (index !== undefined) { // checking for a defined index value
+          setVideo((prevVideo) => ({ ...prevVideo, isEnd: true, videoId: index + 1 }))
+        }
+        break
+      case 'video-last':
+        setVideo((prevVideo) => ({ ...prevVideo, isLastVideo: true }))
+        break
+      case 'video-reset':
+        setVideo((prevVideo) => ({ ...prevVideo, isLastVideo: false, videoId: 0 }))
+        break
+      case 'pause':
+        setVideo((prevVideo) => ({ ...prevVideo, isPlaying: !prevVideo.isPlaying }))
+        break
+      case 'play':
+        setVideo((prevVideo) => ({ ...prevVideo, isPlaying: !prevVideo.isPlaying }))
+        break
+      default:
+        return video
+    }
+  }
 
   // Slider and video animations:
   useGSAP(() => {
@@ -115,42 +150,6 @@ export default function VideoCarousel() {
       }
       return prevData // If it's already load, we do nothing.
     })
-  }
-
-  // Video start:
-  useEffect(() => {
-    if (loadedData.length > 0 && startPlay) { // only when data exist and startPlay is true.
-      if (!isPlaying) {
-        videoRef.current[videoId]?.pause()
-      } else {
-        videoRef.current[videoId]?.play()
-      }
-    }
-  }, [startPlay, videoId, isPlaying, loadedData])
-
-  // Video process handler:
-  const handleProcess = (type: string, index?: number) => {
-    switch (type) {
-      case 'video-end':
-        if (index !== undefined) { // checking for a defined index value
-          setVideo((prevVideo) => ({ ...prevVideo, isEnd: true, videoId: index + 1 }))
-        }
-        break
-      case 'video-last':
-        setVideo((prevVideo) => ({ ...prevVideo, isLastVideo: true }))
-        break
-      case 'video-reset':
-        setVideo((prevVideo) => ({ ...prevVideo, isLastVideo: false, videoId: 0 }))
-        break
-      case 'pause':
-        setVideo((prevVideo) => ({ ...prevVideo, isPlaying: !prevVideo.isPlaying }))
-        break
-      case 'play':
-        setVideo((prevVideo) => ({ ...prevVideo, isPlaying: !prevVideo.isPlaying }))
-        break
-      default:
-        return video
-    }
   }
 
   return (

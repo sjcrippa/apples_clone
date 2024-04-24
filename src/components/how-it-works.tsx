@@ -43,6 +43,7 @@ export default function HowItWorks() {
             alt="chip"
             width={180}
             height={180}
+            style={{ maxWidth: '180px', maxHeight: '180px' }}
           />
         </div>
         <div className="flex flex-col items-center">

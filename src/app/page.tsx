@@ -8,7 +8,7 @@ import Navbar from '@/components/navbar'
 
 export default function HomePage() {
   return (
-    <main>
+    <main className='overflow-y-auto'>
       <Navbar />
       <Hero />
       <Highlights />
