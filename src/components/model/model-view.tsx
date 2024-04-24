@@ -1,12 +1,12 @@
 import * as THREE from 'three'
-import { Suspense, useRef } from 'react'
+import { type MutableRefObject, Suspense, useRef } from 'react'
 import { Html, OrbitControls, PerspectiveCamera, View } from '@react-three/drei'
 
 import Lights from './lights'
 import IPhoneModel from './iphone'
 
 import type { ModelViewProps } from '@/utils/types'
-import type { MutableRefObject } from 'react'
+import type { OrbitControls as OrbitControlsType } from 'three/examples/jsm/Addons.js'
 
 export default function ModelView({
   index,
@@ -41,8 +41,13 @@ export default function ModelView({
         enablePan={false}
         rotateSpeed={0.4}
         target={new THREE.Vector3(0, 0, 0)}
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        onEnd={() => { setRotationState(controlRef?.current?.getAzimuthalAngle()) }}
+        onEnd={() => {
+          const currentControl = controlRef?.current as unknown as OrbitControlsType
+          if (currentControl !== null) {
+            setRotationState(currentControl.getAzimuthalAngle())
+          }
+        }}
+
       />
 
       <group
