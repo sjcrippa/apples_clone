@@ -188,6 +188,7 @@ export default function VideoCarousel() {
                     }}
                   >
                     <source src={list.video} type='video/mp4' />
+                    Your browser does not support the video player.
                   </video>
                 </div>
                 <div className='absolute top-12 left-[5%] z-10'>

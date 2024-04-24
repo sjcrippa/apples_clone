@@ -60,6 +60,7 @@ export default function Features() {
               className='w-full h-full object-cover object-center'
             >
               <source src={exploreVideo} type='video/mp4' />
+              Your browser does not support the video player.
             </video>
           </div>
 
